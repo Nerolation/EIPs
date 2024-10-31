@@ -1,7 +1,7 @@
 ---
 eip: 9999
 title: Symmetric Blob Base Fee Adjustment Mechanism
-description: Adjust the blob base fee mechanism to ensure symmetric updates around the target blob gas per block
+description: Adjust the blob base fee mechanism to ensure symmetric updates around the target
 author: Toni Wahrstätter (@nerolation)
 discussions-to: TBD
 status: Draft
@@ -24,7 +24,7 @@ The motivation for this proposal is to:
 
 ## Specification
 
-The current formula for determining the excess blob gas is defined as follows_
+The current formula for determining the excess blob gas is defined as follows:
 ```python
 def calc_excess_blob_gas(parent: Header) -> int:
     if parent.excess_blob_gas + parent.blob_gas_used < TARGET_BLOB_GAS_PER_BLOCK:
