@@ -48,7 +48,7 @@ def calc_excess_blob_gas(parent: Header) -> int:
 
 ## Rationale
 
-In the current protocol, the blob base fee adjustment mechanism assumes that the target blob gas per block is exactly half of the maximum blob gas per block. This assumption ensures symmetric maximum base fee increases and decreases, maintaining a balance in network economics.
+In the current protocol, the blob base fee adjustment mechanism assumes that the target blob gas per block is exactly half of the maximum blob gas per block. This assumption ensures symmetric maximum base fee increases and decreases.
 
 However, when the target deviates from being half of the maximum (e.g., a target of 4 blobs with a maximum of 6 blobs), asymmetry arises because the maximum possible deviation above the target is not equal to the maximum possible deviation below the target. Specifically:
 
@@ -67,11 +67,6 @@ The scaling factor is calculated as:
 ```python
 blob_gas_scaling_factor = TARGET_BLOB_GAS_PER_BLOCK / (MAX_BLOB_GAS_PER_BLOCK - TARGET_BLOB_GAS_PER_BLOCK)
 ```
-
-By applying this scaling factor to positive deviations (when `blob_gas_delta > 0`), we ensure:
-
-Symmetric Maximum Deviations: The scaled maximum positive deviation equals the maximum negative deviation.
-Consistent Base Fee Adjustments: The base fee can increase or decrease by the same percentage amount, maintaining economic fairness.
 
 ## Backwards Compatibility
 
