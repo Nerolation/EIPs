@@ -36,13 +36,14 @@ def calc_excess_blob_gas(parent: Header) -> int:
 The `excess_blob_gas` calculation is modified to include a scaling factor that adjusts for asymmetry when the target is not half of the maximum. The new calculation is as follows:
 
 ```python
-def calc_excess_blob_gas(parent: Header) -> int:
-    total_blob_gas = parent.excess_blob_gas + parent.blob_gas_used
-    blob_gas_delta = total_blob_gas - TARGET_BLOB_GAS_PER_BLOCK
-    if blob_gas_delta <= 0:
-        return 0
-    blob_gas_scaling_factor = TARGET_BLOB_GAS_PER_BLOCK / (MAX_BLOB_GAS_PER_BLOCK - TARGET_BLOB_GAS_PER_BLOCK)
-    excess_blob_gas = blob_gas_delta * blob_gas_scaling_factor
+def calc_excess_blob_gas(parent_header: Header) -> int:
+    scaling_factor = TARGET_BLOB_GAS_PER_BLOCK / (MAX_BLOB_GAS_PER_BLOCK - TARGET_BLOB_GAS_PER_BLOCK)
+    blob_gas_delta = parent_header.blob_gas_used - TARGET_BLOB_GAS_PER_BLOCK
+    if blob_gas_delta > 0:
+        scaled_delta = blob_gas_delta * scaling_factor
+    else:
+        scaled_delta = blob_gas_delta
+    excess_blob_gas = max(0, parent_header.excess_blob_gas + scaled_delta)
     return excess_blob_gas
 ```
 
